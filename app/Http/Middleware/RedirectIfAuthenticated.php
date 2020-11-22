@@ -18,10 +18,18 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+        if($request->is('admin/*')){
+            if (Auth::guard('admin')->check()) 
+            {
+                return redirect('admin/dashboard');
+            }        
         }
-
+        // elseif($request->is('/*')) {
+        //     if (Auth::guard('pemilih')->check()) 
+        //     {
+        //         return redirect()->route('voting');
+        //     } 
+        // }
         return $next($request);
     }
 }

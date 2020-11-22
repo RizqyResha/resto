@@ -32,7 +32,7 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $exception
      * @return void
      *
-     * @throws \Throwable
+     * @throws \Exception
      */
     public function report(Throwable $exception)
     {
@@ -51,5 +51,22 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
+    {
+      if($request->expectsJson()){
+        return response()->json(['error' => 'Unauthenticated.'], 401);
+      }
+
+      $uri = $request->path();
+
+      if($request->is('admin/*')){
+        return redirect('admin/login');
+      }
+      // elseif($request->is('/*')){
+      //   return redirect('/login');
+      // }
+      
     }
 }

@@ -8,55 +8,96 @@
 <div class="section-body">
   <div class="row">
     <div class="col-md-12">
-      
       <div class="card mt-3">
-
           <div class="card-body">
-            <a href="{{ route('masakan.tambah') }}" class="btn btn-icon icon-left btn-primary mb-3 px-3"><i class="fas fa-plus"></i> Tambah</a>
-            @if(session('message'))
-            <div class="alert alert-success alert-dismissible show fade">
-              <div class="alert-body">
-                <button class="close" data-dismiss="alert">
-                  <span>×</span>
-                </button>
-                {{ session('message') }}
+            <div class="col-md-12">
+              <a href="{{route('masakan.create')}}" class="btn btn-icon icon-left btn-primary mb-3 px-3"><i class="fas fa-plus"></i> Tambah</a>
+              <div class="float-right">
+              <form action="?" method="GET">
+                <div class="input-group mb-3">
+                  <input name="keyword" id="caribuku" type="text" class="form-control" placeholder="Cari..." aria-label="Cari" aria-describedby="button-addon2" value="{{ Request()->keyword }}">
+                  <div class="input-group-append">
+                    <button id="btncaribuku" class="btn btn-outline-secondary bg-primary" type="submit" id="button-addon2"><i class="fas fa-search text-light"></i></button>
+                  </div>
+                </div>
+              </form>
               </div>
             </div>
-            @endif
-              <table class="table">
+          
+            
+              @if (session('store'))
+              <div class="alert alert-success alert-dismissible fade show">
+                  <button type="button" class="close" data-dismiss="alert">
+                      <span>&times;</span>
+                  </button>
+                  <strong>Success!</strong> {{ session('destroy') }}.
+              </div>  
+              @endif
+
+              @if (session('update'))
+              <div class="alert alert-success alert-dismissible fade show">
+                  <button type="button" class="close" data-dismiss="alert">
+                      <span>&times;</span>
+                  </button>
+              <strong>Success!</strong> {{ session('destroy') }}.
+              </div>  
+              @endif
+
+              @if(session('destroy'))
+              <div class="alert alert-success alert-dismissible fade show">
+                  <button type="button" class="close" data-dismiss="alert">
+                      <span>&times;</span>
+                  </button>
+                  <strong>Succes!</strong>{{ session('destroy')}}.
+              </div>
+              @endif
+            
+              <table class="table table-responsive">
                   <thead>
-                      <tr>
-                          <th scope="col">No</th>
+                      <tr class="">
+                          <th scope="col" style="width:1%" class="text-center">No</th>
                           <th scope="col">Masakan</th>
-                          <th></th>
-                          <th>Aksi</th>
+                          <th class="text-center">Aksi</th>
                       </tr>
                   </thead>
                   <tbody class="mt-2">
+                  <?php $no = 1 ?>
+                    @foreach($data as $row)
                       <tr>
-                          <th scope="row">1</th>
+                          <th scope="row" class="text-center">{{$no++}}</th>
                           <td>
-                            <img src="{{asset('assets/img/stisla-fill.svg')}}" width="100" class="img-thumbnail mr-3 mt-2" align="left">
+                            <img src="{{url('assets/masakans/'.$row->file_gambar_masakan)}}" width="100" class="img-thumbnail mr-3 mt-4" align="left">
                             <br>
                             <a href="#" class="font-weight-normal">
-                                <b>Ramen</b>
+                                <b>{{$row->nama_masakan}}</b>
                             </a><br>
-                            <span>  <b>Harga  :</b> Rp 10.000</span><br>
-                            <span>  <b>Kategori  :</b> Makanan</span><br>
-                            <span>  <b>Status :</b> Tersedia</span><br>
+                            <span>  <b>Harga     :</b> {{$row->harga}}</span><br>
+                            <span>  <b>Kategori  :</b> {{$row->nama_kategori}}</span><br>
+                            <span>  
+                            @if($row->status == 'Tersedia') <b>Status :</b> <span class="text-success">Tersedia</span>
+                            @elseif($row->status == 'Habis') <b>Status :</b> <span class="text-warning">Habis</span>
+                            @endif
+                            </span><br>
                           </td>
-                          <td></td>
                           <td>
-                            <a href="{{ route('masakan.edit') }}" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a href="#" data-id="" class="btn btn-danger confirm_script">
-                              <form action="" id="delete" method="POST">
-                                
+                            <div class="d-flex justify-content-center p-0">
+                            <a href="{{route('masakan.edit',['masakan'=>$row->id_masakan])}}" class="btn btn-primary mr-1"><i class="fas fa-edit"></i></a>
+                            <a href="#" data-id="" class="btn btn-danger confirm_script mr-3">
+                              <form action="{{ route('masakan.destroy',['masakan'=>$row->id_masakan])}}" class="delete_form" method="POST">
+                                @method('DELETE')
+                                @csrf
                               </form>
-                              <i class="fas fa-trash"></i></a>
-                            <a href="#" class="btn btn-warning">Habis</a>
+                              <i class="fas fa-trash"></i>
+                            </a>
+                              <form action="{{route('masakan.updateStatus',['masakan'=>$row->id_masakan])}}" method="post">
+                                @csrf
+                                <button class="btn btn-success mr-1" name='status' value="Tersedia" type="submit">Tersedia</a>
+                                <button class="btn btn-warning" name='status' value="Habis" type="submit">Habis</a>
+                              </form>
+                            </div>
                           </td>
                       </tr>
-                      
+                      @endforeach
                   </tbody>
               </table>
               
@@ -88,7 +129,7 @@ $(".confirm_script").click(function(e) {
     })
     .then((willDelete) => {
       if (willDelete) {
-      // $('#delete').submit();
+        $('.delete_form').submit();
       } else {
       swal('Your imaginary file is safe!');
       }

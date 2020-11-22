@@ -18,32 +18,41 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function () {
-    return view('admin/login.index');
+    return view('admin.login.index');
 });
+//waiter
 
+//pelanggan
 Route::view('/register','guest/register');
 Route::view('/qr','guest/qr');
 Route::view('/menu','guest/menu');
 Route::view('/keranjang','guest/keranjang');
+//end-pelanggan
 
 // admin
-Route::view('/dashboard','admin/dashboard.index');
+Route::get('admin/', 'AdminLoginController@getLogin')->middleware('guest');
+Route::get('admin/login', 'AdminLoginController@getLogin')->middleware('guest')->name('admin.login');
+Route::post('admin/login', 'AdminLoginController@postLogin');
+Route::get('admin/logout', 'AdminLoginController@Logout')->name('admin.logout');
+//
+Route::group(['prefix' => 'admin','middleware' => ['auth:admin']], function() {
+    //---DASHBOARD---//
+    Route::get('/dashboard','AdminDashboardController@index')->name('admin.dashboard');
+    //---MASAKAN---//
+    Route::resource('masakan','MasakanController');
+    Route::post('admin/masakan/updatestatus/{masakan}','MasakanController@UpdateStatus')->name('masakan.updateStatus');
+    //---MEJA---///
+    Route::resource('meja','MejaController');
+    //---ADMIN-ACCOUNT---//
+    Route::resource('adminaccount','AdminController');
+    //---TRANSAKSI---//
+    Route::get('/transaksi','AdminTransaksiController@order')->name('admin.transaksi');
 
-Route::view('/masakan','admin/masakan.index');
-Route::view('/masakan/tambah','admin/masakan.create')->name('masakan.tambah');
-Route::view('/masakan/edit','admin/masakan.edit')->name('masakan.edit');
+    Route::view('/orderan','admin/orderan.index');
+    Route::view('/orderan/detail','admin/orderan.detail')->name('orderan.detail');
 
-Route::view('/kategori','admin/kategori.index');
-Route::view('/kategori/tambah','admin/kategori.create')->name('kategori.tambah');
-Route::view('/kategori/edit','admin/kategori.edit')->name('kategori.edit');
+    Route::view('/laporan','admin/laporan.index');
 
-Route::view('/user','admin/user.index');
-Route::view('/user/tambah','admin/user.create')->name('user.tambah');
-Route::view('/user/edit','admin/user.edit')->name('user.edit');
-
-Route::view('/orderan','admin/orderan.index');
-Route::view('/orderan/detail','admin/orderan.detail')->name('orderan.detail');
-
-Route::view('/laporan','admin/laporan.index');
-
-Route::view('/transaksi','admin/transaksi.index');
+    
+});
+//end-admin

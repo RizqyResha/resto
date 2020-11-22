@@ -41,7 +41,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2020 <div class="bullet"></div> Candra saputra
+          Copyright &copy; 2020 <div class="bullet"></div>
         </div>
         <div class="footer-right">
           XII RPL A
@@ -69,6 +69,12 @@
   <script src="{{ asset('assets/js/custom.js')}}"></script>
 
   @stack('after-scripts')
+
+  @stack('modal')
+    <script src="{{url('js/jquery.slim.min.js')}}"></script>
+    <script src="{{url('js/popper.min.js')}}"></script>
+    <script src="{{url('js/bootstrap.min.js')}}"></script>
+  @stack('js')
 
   
 </body>

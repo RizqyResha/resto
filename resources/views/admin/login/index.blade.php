@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Login &mdash; Stisla</title>
+  <title>{{ config('app.name') }} - Login Admin</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,15 +30,14 @@
 
             <div class="card card-primary">
               <div class="card-header"><h4 class="text-primary">Login</h4></div>
-
               <div class="card-body">
-                <form method="#" action="/dashboard" class="needs-validation" novalidate="">
-                  @csrf
+                <form method="post" class="user" action="/admin/login" class="needs-validation" novalidate="">
+                  {{ csrf_field() }}
                   <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                    <label for="username">Username</label>
+                    <input id="username" type="username" class="form-control" name="username" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
-                      Please fill in your email
+                      Silahkan masukan username
                     </div>
                   </div>
 
@@ -48,33 +47,29 @@
                     </div>
                     <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
                     <div class="invalid-feedback">
-                      please fill in your password
+                      Silahkan masukan password
                     </div>
                   </div>
 
-                  @if(session('message'))
+                  @if(session('gagal'))
                   <div class="alert alert-primary alert-dismissible show fade">
                     <div class="alert-body">
                       <button class="close" data-dismiss="alert">
                         <span>×</span>
                       </button>
-                      {{ session('message') }}
+                      Password atau Username Salah
                     </div>
                   </div>
                   @endif
 
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                      Login
-                    </button>
-                  </div>
+                  <button type="submit" class="btn btn-primary btn-lg btn-block" >
+                    Login
+                  </button>
                 </form>
-                
-
               </div>
             </div>
             <div class="simple-footer">
-              Copyright &copy; Candra 2020
+              Copyright &copy; 
             </div>
           </div>
         </div>

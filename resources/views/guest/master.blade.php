@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>{{ config('app.name') }} - @yield('title')</title>
 
   <!-- General CSS Files -->
@@ -11,11 +11,17 @@
 
   <!-- CSS Libraries -->
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/owlcustom.css')}}">
   <link rel="stylesheet" href="{{ asset('owlcarousel/owl.carousel.min.css')}}">
   <link rel="stylesheet" href="{{ asset('owlcarousel/owl.theme.default.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/css/inhomecard.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/css/circlebutton.css')}}">
+
+  <link rel="stylesheet" href="{{ asset('assets/css/fixpage.css')}}">
+  
 
   <!-- Template CSS -->
-<!--   <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
+  <!--   <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}"> -->
 
   @yield('page-styles')
@@ -33,7 +39,7 @@
 
   <footer class="main-footer bg-dark mt-5">
     <div class="text-center text-light py-3">
-      Copyright &copy; 2020 <div class="bullet"> Candra saputra
+      Copyright &copy; 2020 <div class="bullet"> 
     </div></div>
   </footer>     
 
@@ -46,6 +52,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="{{ asset('assets/js/stisla.js')}}"></script>
+  
 
   <!-- JS Libraies -->
 
@@ -59,7 +66,12 @@
   <script src="{{ asset('owlcarousel/owl.carousel.min.js')}}"></script>
 
   @stack('after-scripts')
-
+  
+  <script>
+  $('.stick-top').affix({
+  offset: {top: 50}
+});
+  </script>
   
 </body>
 </html>
