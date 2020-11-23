@@ -1,23 +1,23 @@
 @extends('admin/layout.master')
 
-@section('title','Admin')
+@section('title','Pelanggan')
 @section('title2','Edit')
 
 @section('konten')
 
 <div class="card">
   <div class="card-header">
-    <h4>Tambah Admin</h4>
+    <h4>Tambah Pelanggan</h4>
   </div>
   <div class="card-body">
-    <form action="{{route('adminaccount.update',['adminaccount'=>$data->id_admin])}}}" method="POST">
+    <form action="{{route('pelangganaccount.update',['pelangganaccount'=>$data->id_pelanggan])}}}" method="POST">
     @csrf
     @method('PUT')
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label>*Nama Admin</label>
-          <input type="text" name="nama_admin" value="{{ old('nama_admin',$data->nama_admin) }}" class="form-control @error('username') is-invalid @enderror" Required>
+          <label>*Nama pelanggan</label>
+          <input type="text" name="nama_pelanggan" value="{{ old('nama_pelanggan',$data->nama_pelanggan) }}" class="form-control @error('username') is-invalid @enderror" Required>
         </div>
       </div>
 

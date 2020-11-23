@@ -17,15 +17,14 @@
 					<span class="text-danger"><i class="fas fa-user"></i> {{ \Auth::guard('admin')->user()->nama_admin }}</span>
 				</div>
 				<div class="col-md-8 mt-5">
-					<div class="input-group input-group-sm mb-4">
-				  		<div class="input-group-prepend">
-				    		<span class="input-group-text" id="inputGroup-sizing-sm">Cari Kode Pemesanan</span>
-				  		</div>
-				  		<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-				  		<div class="input-group-append">
-				      		<button class="btn btn-danger" type="button" id="button-addon2">Cari</button>
-				    	</div>
-					</div>
+					<form action="?" method="GET">
+                		<div class="input-group mb-3">
+                  			<input name="keyword" id="caribuku" type="text" class="form-control" placeholder="Cari Kode Order" aria-label="Cari" aria-describedby="button-addon2" value="{{ Request()->keyword }}">
+                  			<div class="input-group-append">
+                    			<button id="btncaribuku" class="btn btn-outline-secondary bg-danger" type="submit" id="button-addon2"><i class="fas fa-search text-light"></i></button>
+                  			</div>
+                		</div>
+              		</form>
 				</div>
 				<ul class="nav nav-tabs mb-3">
 					<li class="nav-item">
@@ -47,6 +46,7 @@
 				    	</tr>
 				  	</thead>
 				  	<tbody>
+					  
 					  <?php $no = 1 ?>
 					  @foreach($data as $row)
 				    	<tr>
@@ -57,6 +57,7 @@
 				      	<td>Rp.{{$row->total_bayar}}</td>
 				    	</tr>
 					   @endforeach
+					   
 				  	</tbody>
 					</table>
 					<hr>

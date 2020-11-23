@@ -43,15 +43,17 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin']], function() {
     Route::post('admin/masakan/updatestatus/{masakan}','MasakanController@UpdateStatus')->name('masakan.updateStatus');
     //---MEJA---///
     Route::resource('meja','MejaController');
-    //---ADMIN-ACCOUNT---//
-    Route::resource('adminaccount','AdminController');
     //---TRANSAKSI---//
     Route::get('/transaksi','AdminTransaksiController@order')->name('admin.transaksi');
-
     Route::view('/orderan','admin/orderan.index');
     Route::view('/orderan/detail','admin/orderan.detail')->name('orderan.detail');
-
+    //---LAPORAN---//
     Route::view('/laporan','admin/laporan.index');
+    //------------------------------ ACCOUNT USER ------------------------------//
+    //---ADMIN-ACCOUNT---//
+    Route::resource('adminaccount','AdminController');
+    Route::resource('pelangganaccount','PelangganController');
+
 
     
 });

@@ -20,7 +20,7 @@
               <li class=""><a class="nav-link" href="{{route('adminaccount.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Admin</span></a></li>
               <li class=""><a class="nav-link" href="/admin/user"><i class="fas fa-fw fa-folder"></i> <span>Kasir</span></a></li>
               <li class=""><a class="nav-link" href="/admin/user"><i class="fas fa-fw fa-folder"></i> <span>Waiter</span></a></li>
-              <li class=""><a class="nav-link" href="/admin/user"><i class="fas fa-fw fa-folder"></i> <span>Pelanggan</span></a></li>
+              <li class=""><a class="nav-link" href="{{route('pelangganaccount.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Pelanggan</span></a></li>
               <!-- <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
                 <ul class="dropdown-menu">

@@ -1,6 +1,6 @@
 @extends('admin/layout.master')
 
-@section('title','Meja')
+@section('title','Pelanggan')
 @section('title2','index')
 
 @section('konten')
@@ -8,12 +8,11 @@
 <div class="section-body">
   <div class="row">
     <div class="col-md-12">
-      
       <div class="card mt-3">
 
           <div class="card-body">
           <div class="col-md-12">
-              <a href="{{route('meja.create')}}" class="btn btn-icon icon-left btn-primary mb-3 px-3"><i class="fas fa-plus"></i> Tambah</a>
+              <a href="{{route('pelangganaccount.create')}}" class="btn btn-icon icon-left btn-primary mb-3 px-3"><i class="fas fa-plus"></i> Tambah</a>
               <div class="float-right">
               <form action="?" method="GET">
                 <div class="input-group mb-3">
@@ -32,7 +31,7 @@
                   <button type="button" class="close" data-dismiss="alert">
                       <span>&times;</span>
                   </button>
-                  <strong>Success!</strong> {{ session('destroy') }}.
+                  <strong>Success!</strong> {{ session('store') }}.
               </div>  
               @endif
 
@@ -50,7 +49,7 @@
                   <button type="button" class="close" data-dismiss="alert">
                       <span>&times;</span>
                   </button>
-                  <strong>Succes!</strong>{{ session('destroy')}}.
+                  <strong>Succes!</strong>Data Berhasil di hapus
               </div>
               @endif
 
@@ -58,8 +57,9 @@
                   <thead>
                       <tr>
                           <th scope="col">No</th>
-                          <th scope="col">Nomor Meja</th>
-                          <th>Keterangan</th>
+                          <th scope="col">Nama pelanggan</th>
+                          <th scope="col">Email</th>
+                          <th>Username</th>
                           <th>Aksi</th>
                       </tr>
                   </thead>
@@ -68,12 +68,13 @@
                     @foreach($data as $row)
                       <tr>
                           <th scope="row">{{$no++}}</th>
-                          <td>{{$row->no_meja}}</td>
-                          <td>{{$row->keterangan}}</td>
+                          <td>{{$row->nama_pelanggan}}</td>
+                          <td>{{$row->email}}</td>
+                          <td>{{$row->username}}</td>
                           <td>
-                            <a href="{{route('meja.edit',['meja'=>$row->id_meja])}}" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a href="#" data-id="{{route('meja.destroy',['meja'=>$row->id_meja])}}" class="btn btn-danger confirm_script mr-3">
-                              <form action="{{ route('meja.destroy',['meja'=>$row->id_meja])}}" class="delete_form" method="POST">
+                            <a href="{{route('pelangganaccount.edit',['pelangganaccount'=>$row->id_pelanggan])}}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a href="#" data-id="" class="btn btn-danger confirm_script mr-3">
+                              <form action="{{ route('pelangganaccount.destroy',['pelangganaccount'=>$row->id_pelanggan])}}" class="delete_form" method="POST">
                                 @method('DELETE')
                                 @csrf
                               </form>
@@ -83,8 +84,7 @@
                       </tr>
                       @endforeach
                   </tbody>
-              </table>
-              
+              </table> 
           </div>
       </div>
     </div>

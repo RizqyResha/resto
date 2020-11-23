@@ -122,7 +122,7 @@ $(".confirm_script").click(function(e) {
   // id = e.target.dataset.id;
   swal({
       title: 'Yakin hapus data?',
-      text: 'Data yang dihapus tidak bisa dibalikin',
+      text: 'Data yang dihapus tidak bisa di kembalikan',
       icon: 'warning',
       buttons: true,
       dangerMode: true,
@@ -131,7 +131,7 @@ $(".confirm_script").click(function(e) {
       if (willDelete) {
         $('.delete_form').submit();
       } else {
-      swal('Your imaginary file is safe!');
+      swal('Hapus data telah di batalkan');
       }
     });
 });
