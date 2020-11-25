@@ -10,7 +10,7 @@
     <h4>Tambah Admin</h4>
   </div>
   <div class="card-body">
-    <form action="{{route('adminaccount.update',['adminaccount'=>$data->id_admin])}}}" method="POST">
+    <form action="{{route('adminaccount.update',['adminaccount'=>$data->id_admin])}}" method="POST">
     @csrf
     @method('PUT')
     <div class="row">

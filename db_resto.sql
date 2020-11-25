@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Nov 2020 pada 15.57
--- Versi server: 10.4.14-MariaDB
--- Versi PHP: 7.4.10
+-- Generation Time: Nov 25, 2020 at 12:20 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_admin`
+-- Table structure for table `tbl_admin`
 --
 
 CREATE TABLE `tbl_admin` (
@@ -39,7 +39,7 @@ CREATE TABLE `tbl_admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tbl_admin`
+-- Dumping data for table `tbl_admin`
 --
 
 INSERT INTO `tbl_admin` (`id_admin`, `nama_admin`, `username`, `password`, `email`, `created_at`, `updated_at`, `remember_token`) VALUES
@@ -49,24 +49,34 @@ INSERT INTO `tbl_admin` (`id_admin`, `nama_admin`, `username`, `password`, `emai
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_detail_order`
+-- Table structure for table `tbl_detail_order`
 --
 
 CREATE TABLE `tbl_detail_order` (
   `id_detail_order` int(11) NOT NULL,
   `id_order` int(11) NOT NULL,
+  `kode_order` varchar(100) NOT NULL,
   `id_masakan` int(11) NOT NULL,
   `nama_masakan` varchar(100) NOT NULL,
   `harga_masakan` int(11) NOT NULL,
+  `total_bayar` int(11) NOT NULL,
   `jumlah_pesan` int(11) NOT NULL,
   `no_meja` int(11) NOT NULL,
   `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tbl_detail_order`
+--
+
+INSERT INTO `tbl_detail_order` (`id_detail_order`, `id_order`, `kode_order`, `id_masakan`, `nama_masakan`, `harga_masakan`, `total_bayar`, `jumlah_pesan`, `no_meja`, `status`) VALUES
+(1, 1, 'ORD11232020001', 6, 'Tamusu', 15000, 15000, 1, 5, 'BELUM_BAYAR'),
+(2, 1, 'ORD11232020001', 3, 'Jus Jambu', 5000, 10000, 2, 5, 'BELUM_BAYAR');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_kasir`
+-- Table structure for table `tbl_kasir`
 --
 
 CREATE TABLE `tbl_kasir` (
@@ -83,7 +93,7 @@ CREATE TABLE `tbl_kasir` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_laporan`
+-- Table structure for table `tbl_laporan`
 --
 
 CREATE TABLE `tbl_laporan` (
@@ -100,7 +110,7 @@ CREATE TABLE `tbl_laporan` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_masakan`
+-- Table structure for table `tbl_masakan`
 --
 
 CREATE TABLE `tbl_masakan` (
@@ -115,7 +125,7 @@ CREATE TABLE `tbl_masakan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tbl_masakan`
+-- Dumping data for table `tbl_masakan`
 --
 
 INSERT INTO `tbl_masakan` (`id_masakan`, `file_gambar_masakan`, `nama_masakan`, `nama_kategori`, `deskripsi`, `harga`, `diskon`, `status`) VALUES
@@ -126,7 +136,7 @@ INSERT INTO `tbl_masakan` (`id_masakan`, `file_gambar_masakan`, `nama_masakan`, 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_meja`
+-- Table structure for table `tbl_meja`
 --
 
 CREATE TABLE `tbl_meja` (
@@ -136,7 +146,7 @@ CREATE TABLE `tbl_meja` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tbl_meja`
+-- Dumping data for table `tbl_meja`
 --
 
 INSERT INTO `tbl_meja` (`id_meja`, `no_meja`, `keterangan`) VALUES
@@ -146,7 +156,7 @@ INSERT INTO `tbl_meja` (`id_meja`, `no_meja`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_order`
+-- Table structure for table `tbl_order`
 --
 
 CREATE TABLE `tbl_order` (
@@ -155,17 +165,24 @@ CREATE TABLE `tbl_order` (
   `id_meja` int(11) NOT NULL,
   `no_meja` int(11) NOT NULL,
   `id_pelanggan` int(11) NOT NULL,
-  `nama_pelanggan` int(11) NOT NULL,
+  `nama_pelanggan` varchar(100) NOT NULL,
   `tanggal` date NOT NULL,
   `total_bayar` int(11) NOT NULL,
   `keterangan` text NOT NULL,
-  `status` varchar(10) NOT NULL
+  `status` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_order`
+--
+
+INSERT INTO `tbl_order` (`id_order`, `kode_order`, `id_meja`, `no_meja`, `id_pelanggan`, `nama_pelanggan`, `tanggal`, `total_bayar`, `keterangan`, `status`) VALUES
+(1, 'ORD11232020001', 4, 5, 1, 'Rizqy Resha P', '2020-11-23', 15000, 'No Description ', 'BELUM');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_owner`
+-- Table structure for table `tbl_owner`
 --
 
 CREATE TABLE `tbl_owner` (
@@ -181,24 +198,32 @@ CREATE TABLE `tbl_owner` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_pelanggan`
+-- Table structure for table `tbl_pelanggan`
 --
 
 CREATE TABLE `tbl_pelanggan` (
   `id_pelanggan` int(11) NOT NULL,
   `nama_pelanggan` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(191) NOT NULL,
-  `QRpassword` varchar(191) NOT NULL,
+  `QRpassword` varchar(191) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `remember_token` varchar(100) NOT NULL
+  `remember_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_pelanggan`
+--
+
+INSERT INTO `tbl_pelanggan` (`id_pelanggan`, `nama_pelanggan`, `email`, `username`, `password`, `QRpassword`, `created_at`, `updated_at`, `remember_token`) VALUES
+(1, 'Rizqy Resha P', 'rizqyresha22@gmail.com', 'pelanggan1', '$2y$10$TuMl87Eru3CLglbfTSeaH.7peCk93iyCkno2128lreC.pUTU6U6nO', NULL, '2020-11-22 19:10:50', '2020-11-22 19:25:18', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_pengaturan`
+-- Table structure for table `tbl_pengaturan`
 --
 
 CREATE TABLE `tbl_pengaturan` (
@@ -215,7 +240,7 @@ CREATE TABLE `tbl_pengaturan` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_suplier`
+-- Table structure for table `tbl_suplier`
 --
 
 CREATE TABLE `tbl_suplier` (
@@ -229,7 +254,7 @@ CREATE TABLE `tbl_suplier` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_waiter`
+-- Table structure for table `tbl_waiter`
 --
 
 CREATE TABLE `tbl_waiter` (
@@ -251,149 +276,149 @@ CREATE TABLE `tbl_waiter` (
 --
 
 --
--- Indeks untuk tabel `tbl_admin`
+-- Indexes for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `tbl_detail_order`
+-- Indexes for table `tbl_detail_order`
 --
 ALTER TABLE `tbl_detail_order`
   ADD PRIMARY KEY (`id_detail_order`);
 
 --
--- Indeks untuk tabel `tbl_kasir`
+-- Indexes for table `tbl_kasir`
 --
 ALTER TABLE `tbl_kasir`
   ADD PRIMARY KEY (`id_kasir`);
 
 --
--- Indeks untuk tabel `tbl_laporan`
+-- Indexes for table `tbl_laporan`
 --
 ALTER TABLE `tbl_laporan`
   ADD PRIMARY KEY (`id_laporan`);
 
 --
--- Indeks untuk tabel `tbl_masakan`
+-- Indexes for table `tbl_masakan`
 --
 ALTER TABLE `tbl_masakan`
   ADD PRIMARY KEY (`id_masakan`) USING BTREE;
 
 --
--- Indeks untuk tabel `tbl_meja`
+-- Indexes for table `tbl_meja`
 --
 ALTER TABLE `tbl_meja`
   ADD PRIMARY KEY (`id_meja`);
 
 --
--- Indeks untuk tabel `tbl_order`
+-- Indexes for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
   ADD PRIMARY KEY (`id_order`) USING BTREE;
 
 --
--- Indeks untuk tabel `tbl_owner`
+-- Indexes for table `tbl_owner`
 --
 ALTER TABLE `tbl_owner`
   ADD PRIMARY KEY (`id_owner`);
 
 --
--- Indeks untuk tabel `tbl_pelanggan`
+-- Indexes for table `tbl_pelanggan`
 --
 ALTER TABLE `tbl_pelanggan`
   ADD PRIMARY KEY (`id_pelanggan`);
 
 --
--- Indeks untuk tabel `tbl_pengaturan`
+-- Indexes for table `tbl_pengaturan`
 --
 ALTER TABLE `tbl_pengaturan`
   ADD PRIMARY KEY (`id_pengaturan`);
 
 --
--- Indeks untuk tabel `tbl_suplier`
+-- Indexes for table `tbl_suplier`
 --
 ALTER TABLE `tbl_suplier`
   ADD PRIMARY KEY (`id_suplier`);
 
 --
--- Indeks untuk tabel `tbl_waiter`
+-- Indexes for table `tbl_waiter`
 --
 ALTER TABLE `tbl_waiter`
   ADD PRIMARY KEY (`id_waiter`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_admin`
+-- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_detail_order`
+-- AUTO_INCREMENT for table `tbl_detail_order`
 --
 ALTER TABLE `tbl_detail_order`
-  MODIFY `id_detail_order` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detail_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_kasir`
+-- AUTO_INCREMENT for table `tbl_kasir`
 --
 ALTER TABLE `tbl_kasir`
   MODIFY `id_kasir` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_laporan`
+-- AUTO_INCREMENT for table `tbl_laporan`
 --
 ALTER TABLE `tbl_laporan`
   MODIFY `id_laporan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_masakan`
+-- AUTO_INCREMENT for table `tbl_masakan`
 --
 ALTER TABLE `tbl_masakan`
   MODIFY `id_masakan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_meja`
+-- AUTO_INCREMENT for table `tbl_meja`
 --
 ALTER TABLE `tbl_meja`
   MODIFY `id_meja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_order`
+-- AUTO_INCREMENT for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_owner`
+-- AUTO_INCREMENT for table `tbl_owner`
 --
 ALTER TABLE `tbl_owner`
   MODIFY `id_owner` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_pelanggan`
+-- AUTO_INCREMENT for table `tbl_pelanggan`
 --
 ALTER TABLE `tbl_pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_pengaturan`
+-- AUTO_INCREMENT for table `tbl_pengaturan`
 --
 ALTER TABLE `tbl_pengaturan`
   MODIFY `id_pengaturan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_suplier`
+-- AUTO_INCREMENT for table `tbl_suplier`
 --
 ALTER TABLE `tbl_suplier`
   MODIFY `id_suplier` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_waiter`
+-- AUTO_INCREMENT for table `tbl_waiter`
 --
 ALTER TABLE `tbl_waiter`
   MODIFY `id_waiter` int(11) NOT NULL AUTO_INCREMENT;
