@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin']], function() {
     //---TRANSAKSI---//
     Route::get('/transaksi','AdminTransaksiController@order')->name('admin.transaksi');
     Route::post('/transaksi/kodeorder','AdminTransaksiController@CariKodeOrder')->name('admintransaksi.carikode');
+    route::post('/transaksi/bayar','AdminTransaksiController@Bayar')->name('admintransaksi.bayar');
     Route::view('/orderan','admin/orderan.index');
     Route::view('/orderan/detail','admin/orderan.detail')->name('orderan.detail');
     //---LAPORAN---//
