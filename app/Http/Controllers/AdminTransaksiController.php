@@ -7,41 +7,61 @@ use Illuminate\support\Facades\DB;
 use App\Order;
 Use App\DetailOrder;
 use App\Laporan;
+use App\Transaksi;
 Use Carbon\Carbon;
 
 class AdminTransaksiController extends Controller
 {
     public function order(Request $request)
     {
-        // $data = DB::table('tbl_order')
-        //     ->where('tbl_order.kode_order','like',"%{$request->keyword}%")
-        //     ->orderBy('tbl_order.id_order')
-        //     ->paginate(10);
-
-        // $data = DB::table('tbl_order')->get();
-
-        // return view('admin.transaksi.order',['data'=>$data]);
-
-        $data = DB::table('tbl_detail_order')->where('kode_order','=',$request->kode_order);
+        $data = DB::table('tbl_detail_order')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
         $data = $data->get();
-        $jumlah_bayar = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->sum('total_bayar');
-        $namapemesan = DB::table('tbl_order')->select('nama_pelanggan')->where('kode_order','=', $request->kode_order)->pluck('nama_pelanggan')->first();
+        $id_order = DB::table('tbl_order')->select('id_order')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+        $id_order = $id_order->pluck('id_order');
+        $id_pelanggan = DB::table('tbl_order')->select('id_pelanggan')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+        $id_pelanggan = $id_pelanggan->pluck('id_pelanggan')->first();
+        $jumlah_bayar = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('total_bayar');
+        $namapemesan = DB::table('tbl_order')->select('nama_pelanggan')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('nama_pelanggan')->first();
         $kode_order = $request->kode_order;
-        $nomeja = DB::table('tbl_detail_order')->select('no_meja')->where('kode_order','=', $request->kode_order)->pluck('no_meja')->first();
-        return view('admin.transaksi.index',['data'=>$data,'jumlah_bayar'=>$jumlah_bayar,'nomeja'=>$nomeja,'namapemesan'=>$namapemesan,'kode_order'=>$kode_order])->with('dataset');
-        // return dd($namapemesan);
+        $jumlah_masakan_dipesan = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('jumlah_pesan');
+        $nomeja = DB::table('tbl_detail_order')->select('no_meja')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('no_meja')->first();
+        return view('admin.transaksi.index',[
+            'data'=>$data,
+            'jumlah_bayar'=>$jumlah_bayar,
+            'nomeja'=>$nomeja,
+            'namapemesan'=>$namapemesan,
+            'kode_order'=>$kode_order,
+            'id_order'=>$id_order,
+            'id_pelanggan'=>$id_pelanggan,
+            'jumlah_masakan_dipesan'=>$jumlah_masakan_dipesan]);
+
+        // return dd($id_pelanggan);
     }
 
     public function CariKodeOrder(Request $request)
     {
         $data = DB::table('tbl_detail_order')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
         $data = $data->get();
+        $id_order = DB::table('tbl_order')->select('id_order')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+        $id_order = $id_order->pluck('id_order')->first();
+        $id_pelanggan = DB::table('tbl_order')->select('id_pelanggan')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+        $id_pelanggan = $id_pelanggan->pluck('id_pelanggan')->first();
         $jumlah_bayar = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('total_bayar');
         $namapemesan = DB::table('tbl_order')->select('nama_pelanggan')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('nama_pelanggan')->first();
         $kode_order = $request->kode_order;
+        $jumlah_masakan_dipesan = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('jumlah_pesan');
         $nomeja = DB::table('tbl_detail_order')->select('no_meja')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('no_meja')->first();
-        return view('admin.transaksi.index',['data'=>$data,'jumlah_bayar'=>$jumlah_bayar,'nomeja'=>$nomeja,'namapemesan'=>$namapemesan,'kode_order'=>$kode_order])->with('dataset');
-        // return dd($namapemesan);
+        return view('admin.transaksi.index',[
+            'data'=>$data,
+            'jumlah_bayar'=>$jumlah_bayar,
+            'nomeja'=>$nomeja,
+            'namapemesan'=>$namapemesan,
+            'kode_order'=>$kode_order,
+            'id_order'=>$id_order,
+            'id_pelanggan'=>$id_pelanggan,
+            'jumlah_masakan_dipesan'=>$jumlah_masakan_dipesan]);
+
+        // return dd($id_pelanggan);
     }
 
     public function Bayar(Request $request)
@@ -65,12 +85,12 @@ class AdminTransaksiController extends Controller
                 'jumlah_penghasilan'=>$request->jumlah_bayar,
                 'jumlah_produk_terjual'=>$jumlah_produk_terjual,
             ]);
-            return redirect()->route('admin.transaksi');
+            // return redirect()->route('admin.transaksi');
         }else{
             //GATHERING DATA
-            $jml_transaksi = Laporan::where('tanggal','=',$tanggal_sekarang)->first()->pluck('jumlah_transaksi');
-            $jml_penghasilan = Laporan::where('tanggal','=',$tanggal_sekarang)->first()->pluck('jumlah_penghasilan');
-            $jml_produk_terjual = Laporan::where('tanggal','=',$tanggal_sekarang)->first()->pluck('jumlah_produk_terjual');
+            $jml_transaksi = Laporan::where('tanggal','=',$tanggal_sekarang)->latest('tanggal')->pluck('jumlah_transaksi');
+            $jml_penghasilan = Laporan::where('tanggal','=',$tanggal_sekarang)->latest('tanggal')->pluck('jumlah_penghasilan');
+            $jml_produk_terjual = Laporan::where('tanggal','=',$tanggal_sekarang)->latest('tanggal')->pluck('jumlah_produk_terjual');
             $artmtk_jml_transaksi = $jml_transaksi[0] + 1;
             $artmtk_jml_penghasilan = $jml_penghasilan[0] + $request->jumlah_bayar;
             $artmtk_jml_produk_terjual = $jml_produk_terjual[0] + $jumlah_produk_terjual;
@@ -86,10 +106,26 @@ class AdminTransaksiController extends Controller
 
             //UPDATE DATA
             Laporan::where('tanggal','=',$tanggal_sekarang)->update($query);
-            return redirect()->route('admin.transaksi');
+            // return redirect()->route('admin.transaksi');
         }
+        //END INSERT LAPORAN
 
-        // return redirect()->route('admin.transaksi');
-        // return dd($check_data);
+        //INSERT INTO TRANSAKSI
+        Transaksi::create([
+            'kembalian'=>$request->kembalian,
+            'kode_order'=>$request->kode_order,
+            'total_bayar'=>$request->total_bayar,
+            'jumlah_bayar'=>$request->jumlah_bayar,
+            'nama_pelanggan'=>$request->nama_pelanggan,
+            'jumlah_masakan_dipesan'=>$request->jumlah_masakan_dipesan,
+            'id_pelanggan'=>$request->id_pelanggan,
+            'id_petugas'=>$request->id_admin,
+            'id_order'=>$request->id_order,
+            'tanggal'=>$tanggal_sekarang,
+            'level_petugas'=>'ADMIN'
+        ]);
+
+        return redirect()->route('admin.transaksi');
+        // return dd($request->jumlah_masakan_dipesan);
     }
 }

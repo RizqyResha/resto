@@ -90,12 +90,16 @@
 				@csrf
 					<input type="hidden" name="kode_order" value='{{$kode_order}}' class="form-control">
 					<input type="hidden" name="nama_pelanggan" value='{{$namapemesan}}' class="form-control">
-					<input type="hidden" name="jumlah_bayar" value='{{$jumlah_bayar}}' class="form-control">
+					<input type="hidden" name="id_pelanggan" value='{{$id_pelanggan}}' class="form-control">
+					<input type="hidden" name="id_order" value='{{$id_order}}' class="form-control">
+					<input type="hidden" name="total_bayar" value='{{$jumlah_bayar}}' class="form-control">
+					<input type="hidden" name="id_admin" value='{{ \Auth::guard("admin")->user()->id_admin }}' class="form-control">
+					<input type="hidden" name="jumlah_masakan_dipesan" value='{{$jumlah_masakan_dipesan}}' class="form-control">
 					<div class="form-group input-group mb-3">
 				  		<div class="input-group-prepend" for="bayar">
 				    		<span class="input-group-text" id="inputGroup-sizing-sm">Bayar</span>
 				  		</div>
-				  		<input required type="number" name="bayar" id="bayar" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" onInput="kalkulasi()" value="0">
+				  		<input required type="number" name="jumlah_bayar" id="bayar" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" onInput="kalkulasi()" value="0">
 					</div>
 					<div class="form-group input-group input-group-sm mb-3">
 				  		<div class="input-group-prepend" for="kembalian">
