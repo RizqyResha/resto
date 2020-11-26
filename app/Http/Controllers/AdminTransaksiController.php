@@ -9,6 +9,7 @@ Use App\DetailOrder;
 use App\Laporan;
 use App\Transaksi;
 Use Carbon\Carbon;
+use PDF;
 
 class AdminTransaksiController extends Controller
 {
@@ -51,6 +52,7 @@ class AdminTransaksiController extends Controller
         $kode_order = $request->kode_order;
         $jumlah_masakan_dipesan = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('jumlah_pesan');
         $nomeja = DB::table('tbl_detail_order')->select('no_meja')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('no_meja')->first();
+        // return dd($jumlah_masakan_dipesan);
         return view('admin.transaksi.index',[
             'data'=>$data,
             'jumlah_bayar'=>$jumlah_bayar,
@@ -76,11 +78,11 @@ class AdminTransaksiController extends Controller
         $tanggal_sekarang = Carbon::today()->format('y-m-d');
         $check_data = Laporan::where('tanggal','=',$tanggal_sekarang)->count();
         $jumlah_transaksi_awal = 1;
-        $jumlah_produk_terjual = DetailOrder::where('kode_order','=',$request->kode_order)->count();
+        $jumlah_produk_terjual = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->sum('jumlah_pesan');
         if ($check_data == 0)
         {
             Laporan::create([
-                'tanggal'=>Carbon::now(),
+                'tanggal'=>$tanggal_sekarang,
                 'jumlah_transaksi'=>$jumlah_transaksi_awal,
                 'jumlah_penghasilan'=>$request->jumlah_bayar,
                 'jumlah_produk_terjual'=>$jumlah_produk_terjual,
@@ -127,5 +129,20 @@ class AdminTransaksiController extends Controller
 
         return redirect()->route('admin.transaksi');
         // return dd($request->jumlah_masakan_dipesan);
+    }
+
+    public function CetakStruk(Request $request)
+    {
+        $data = DB::table('tbl_detail_order')->where('kode_order','=',$request->kode_order)->get();
+        $pdf = PDF::loadView('admin.transaksi.report',[
+            'nama_pelanggan'=>$request->nama_pelanggan,
+            'kembalian'=>$request->kembalian,
+            'kode_order'=>$request->kode_order,
+            'tanggal'=>Carbon::today()->format('y-m-d'),
+            'total_bayar'=>$request->total_bayar,
+            'jumlah_bayar'=>$request->jumlah_bayar,
+            'data'=>$data,
+        ]);
+        return $pdf->download($request->kode_order.'.pdf');
     }
 }

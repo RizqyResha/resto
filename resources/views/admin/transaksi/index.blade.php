@@ -91,7 +91,7 @@
 					<input type="hidden" name="kode_order" value='{{$kode_order}}' class="form-control">
 					<input type="hidden" name="nama_pelanggan" value='{{$namapemesan}}' class="form-control">
 					<input type="hidden" name="id_pelanggan" value='{{$id_pelanggan}}' class="form-control">
-					<input type="hidden" name="id_order" value='{{$id_order}}' class="form-control">
+					<input type="hidden" id="id_order"name="id_order" value='{{$id_order}}' class="form-control">
 					<input type="hidden" name="total_bayar" value='{{$jumlah_bayar}}' class="form-control">
 					<input type="hidden" name="id_admin" value='{{ \Auth::guard("admin")->user()->id_admin }}' class="form-control">
 					<input type="hidden" name="jumlah_masakan_dipesan" value='{{$jumlah_masakan_dipesan}}' class="form-control">
@@ -119,7 +119,18 @@
 				</div>
 
 				</div>
-
+				<form action="{{route('admintransaksi.bayar.report')}}" class="cetak" method="POST">
+				@csrf
+					<input type="hidden" name="kode_order" value='{{$kode_order}}' class="form-control">
+					<input type="hidden" name="nama_pelanggan" value='{{$namapemesan}}' class="form-control">
+					<input type="hidden" name="id_pelanggan" value='{{$id_pelanggan}}' class="form-control">
+					<input type="hidden" id="id_order"name="id_order" value='{{$id_order}}' class="form-control">
+					<input type="hidden" name="total_bayar" value='{{$jumlah_bayar}}' class="form-control">
+					<input type="hidden" name="id_admin" value='{{ \Auth::guard("admin")->user()->id_admin }}' class="form-control">
+					<input type="hidden" name="jumlah_masakan_dipesan" value='{{$jumlah_masakan_dipesan}}' class="form-control">
+				  	<input type="hidden" name="jumlah_bayar" id="bayar2" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="0">
+				  	<input type="hidden" name="kembalian" id="kembalian2" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="0">
+				</form>
 			</div>
 		</div>
 		</div>
@@ -139,11 +150,17 @@ function kalkulasi() {
 
 	if (isNaN(kembalian)){
 		document.getElementById("kembalian").value = 0;
+		document.getElementById("kembalian2").value = 0;
+		document.getElementById("bayar2").value = document.getElementById("bayar").value;
 	}
 	else if (kembalian < 0){
 		document.getElementById("kembalian").value = 0;
+		document.getElementById("kembalian2").value = 0;
+		document.getElementById("bayar2").value = document.getElementById("bayar").value;
 	}else{
 		document.getElementById("kembalian").value = kembalian;
+		document.getElementById("kembalian2").value = kembalian;
+		document.getElementById("bayar2").value = document.getElementById("bayar").value;
 	}	
 }
 
@@ -162,9 +179,18 @@ $(".confirm_script").click(function(e) {
   // id = e.target.dataset.id;
   var totalpembayaran = parseInt(document.getElementById("totalbayar").value);
   var bayar = parseInt(document.getElementById("bayar").value);
+  var id_order = document.getElementById("id_order").value
   var kembalian = bayar - totalpembayaran;
-
-  if (bayar < totalpembayaran || isNaN(bayar))
+  if(id_order === "[]")
+  {
+	swal({
+      title: 'Pembayaran Gagal',
+      text: 'Silahkan Masukan Kode Order',
+      icon: 'warning',
+      dangerMode: true,
+    })  
+  }
+  else if (bayar < totalpembayaran || isNaN(bayar))
   {
 	swal({
       title: 'Pembayaran Gagal',
@@ -182,7 +208,29 @@ $(".confirm_script").click(function(e) {
     })
     .then((selesaikan) => {
       if (selesaikan) {
-        $('.bayar').submit();
+		swal({
+      	  title: 'Cetak Struk',
+      	  text: 'Klik Ok dan tunggu 5 detik untuk Cetak Struk Laporan',
+      	  icon: 'info',
+      	  dangerMode: true,
+    	  })
+		  .then((cetakstruk) => {
+			  if(cetakstruk){
+				$('.cetak').submit();
+				swal({
+      	  		  title: 'Selesaikan Laporan',
+      	  		  text: 'Transaksi Telah Selesai Klik OK',
+      	  		  icon: 'info',
+      	  		  buttons: true,
+      	  		  dangerMode: true,
+    	  		})
+				.then((selesaitransaksi) => {
+					if(selesaitransaksi) {
+						$('.bayar').submit();
+					}
+				})
+			  }
+		  })
       } else {
       swal('Selesaikan Transaksi di batalkan');
       }
@@ -191,3 +239,68 @@ $(".confirm_script").click(function(e) {
 });
 </script>
 @endpush
+
+<!-- <script>
+$(".confirm_script").click(function(e) {
+  // id = e.target.dataset.id;
+  var totalpembayaran = parseInt(document.getElementById("totalbayar").value);
+  var bayar = parseInt(document.getElementById("bayar").value);
+  var id_order = document.getElementById("id_order").value
+  var kembalian = bayar - totalpembayaran;
+  if(id_order === "[]")
+  {
+	swal({
+      title: 'Pembayaran Gagal',
+      text: 'Silahkan Masukan Kode Order',
+      icon: 'warning',
+      dangerMode: true,
+    })  
+  }
+  else if (bayar < totalpembayaran || isNaN(bayar))
+  {
+	swal({
+      title: 'Pembayaran Gagal',
+      text: 'Jumlah Bayar tidak memadai',
+      icon: 'warning',
+      dangerMode: true,
+    })
+  }else{
+	swal({
+      title: 'Yakin Selesaikan Transaksi',
+      text: 'Transaksi yang diselesaikan tidak bisa di kembalikan',
+      icon: 'info',
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((selesaikan) => {
+      if (selesaikan) {
+		swal({
+      	  title: 'Cetak Struk',
+      	  text: 'Klik Ok dan tunggu 5 detik untuk Cetak Struk Laporan',
+      	  icon: 'info',
+      	  dangerMode: true,
+    	  })
+		  .then((cetakstruk) => {
+			  if(cetakstruk){
+				$('.cetak').submit();
+				swal({
+      	  		  title: 'Selesaikan Laporan',
+      	  		  text: 'Transaksi Telah Selesai Klik OK',
+      	  		  icon: 'info',
+      	  		  buttons: true,
+      	  		  dangerMode: true,
+    	  		})
+				.then((selesaitransaksi) => {
+					if(selesaitransaksi) {
+						$('.bayar').submit();
+					}
+				})
+			  }
+		  })
+      } else {
+      swal('Selesaikan Transaksi di batalkan');
+      }
+    });
+  }
+});
+</script> -->
