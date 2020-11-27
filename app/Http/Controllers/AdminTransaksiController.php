@@ -143,6 +143,6 @@ class AdminTransaksiController extends Controller
             'jumlah_bayar'=>$request->jumlah_bayar,
             'data'=>$data,
         ]);
-        return $pdf->download($request->kode_order.'.pdf');
+        return $pdf->stream($request->kode_order.'.pdf');
     }
 }

@@ -119,7 +119,7 @@
 				</div>
 
 				</div>
-				<form action="{{route('admintransaksi.bayar.report')}}" class="cetak" method="POST">
+				<form action="{{route('admintransaksi.bayar.report')}}" target="_blank" class="cetak" method="POST">
 				@csrf
 					<input type="hidden" name="kode_order" value='{{$kode_order}}' class="form-control">
 					<input type="hidden" name="nama_pelanggan" value='{{$namapemesan}}' class="form-control">
@@ -221,13 +221,12 @@ $(".confirm_script").click(function(e) {
       	  		  title: 'Selesaikan Laporan',
       	  		  text: 'Transaksi Telah Selesai Klik OK',
       	  		  icon: 'info',
-      	  		  buttons: true,
       	  		  dangerMode: true,
+				  timer: 5000,
+				  buttons: false,
     	  		})
-				.then((selesaitransaksi) => {
-					if(selesaitransaksi) {
-						$('.bayar').submit();
-					}
+				.then(() => {
+					$('.bayar').submit();
 				})
 			  }
 		  })
