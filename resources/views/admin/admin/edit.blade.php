@@ -25,7 +25,7 @@
         <div class="form-group">
           <label for="username">*Username</label>
           <input id="username" type="text" name="username" value="{{old('username',$data->username)}}" class="form-control @error('username') is-invalid @enderror" Required>  
-          @error('email')
+          @error('username')
 							<div class="invalid-feedback">
 								{{ $message }}
 							</div>
@@ -43,7 +43,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="email">*Email</label>
-          <input id="email" type="text" name="email" value="{{old('email',$data->email)}}" class="form-control @error('email') is-invalid @enderror" Required>  
+          <input id="email" type="email" name="email" value="{{old('email',$data->email)}}" class="form-control @error('email') is-invalid @enderror" Required>  
           @error('email')
 							<div class="invalid-feedback">
 								{{ $message }}

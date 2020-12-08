@@ -50,9 +50,18 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin']], function() {
     Route::post('/transaksi/bayar/report','AdminTransaksiController@CetakStruk')->name('admintransaksi.bayar.report');
     //---LAPORAN---//
     Route::view('/laporan','admin/laporan.index');
-    //------------------------------ ACCOUNT USER ------------------------------//
+    //------------------------------ USER ACCOUNT ------------------------------//
+    //---OWNER-ACCOUNT---//
+    Route::resource('owneraccount','OwnerController');
     //---ADMIN-ACCOUNT---//
     Route::resource('adminaccount','AdminController');
+    //---PELANGGAN-ACCOUNT---//
     Route::resource('pelangganaccount','PelangganController');
+    //---KASIR-ACCOUNT---//
+    route::resource('kasiraccount','KasirController');
+    Route::post('admin/kasiraccount/updatestatus/{kasiraccount}','KasirController@UpdateStatus')->name('kasiraccount.updateStatus');
+    //---WAITER-ACCOUNT---//
+    route::resource('waiteraccount','WaiterController');
+    Route::post('admin/waiteraccount/updatestatus/{waiteraccount}','WaiterController@UpdateStatus')->name('waiteraccount.updateStatus');
 });
 //end-admin

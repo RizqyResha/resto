@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Nov 2020 pada 18.33
+-- Waktu pembuatan: 08 Des 2020 pada 05.56
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -81,14 +81,26 @@ INSERT INTO `tbl_detail_order` (`id_detail_order`, `id_order`, `kode_order`, `id
 
 CREATE TABLE `tbl_kasir` (
   `id_kasir` int(11) NOT NULL,
+  `file_foto_kasir` text NOT NULL,
   `nama_kasir` varchar(100) NOT NULL,
-  `jenis_kelamin` varchar(8) NOT NULL,
+  `jenis_kelamin` varchar(10) NOT NULL,
   `alamat` text NOT NULL,
   `no_hp` varchar(12) NOT NULL,
   `email` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(191) NOT NULL
+  `password` varchar(191) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `remember_token` text DEFAULT NULL,
+  `status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tbl_kasir`
+--
+
+INSERT INTO `tbl_kasir` (`id_kasir`, `file_foto_kasir`, `nama_kasir`, `jenis_kelamin`, `alamat`, `no_hp`, `email`, `username`, `password`, `created_at`, `updated_at`, `remember_token`, `status`) VALUES
+(1, 'Paimon1607400822.jpg', 'Paimon', 'Perempuan', 'JL.Raya Teyvat', '081283772839', 'paimon@com.com', 'mahoyo', '$2y$10$WaHFeBUwh.IstDWXY7wVLePR3ibDHlRJXbwowiP8BPLxmr7OWZUFi', '2020-12-07 21:13:42', '2020-12-07 21:13:50', NULL, 'Aktif');
 
 -- --------------------------------------------------------
 
@@ -196,10 +208,18 @@ CREATE TABLE `tbl_owner` (
   `nama_owner` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(191) NOT NULL,
+  `email` varchar(40) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `remember_token` varchar(100) NOT NULL
+  `remember_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tbl_owner`
+--
+
+INSERT INTO `tbl_owner` (`id_owner`, `nama_owner`, `username`, `password`, `email`, `created_at`, `updated_at`, `remember_token`) VALUES
+(1, 'RizqyR', 'rizqy', '$2y$10$uGo/dcQBxNJYa2eTAEF9hOtTv2z9TETkdMWrXCDzyMcxOuN1ExCG6', 'rizqy@gmail.com', '2020-12-07 21:45:22', '2020-12-07 21:45:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -306,17 +326,31 @@ INSERT INTO `tbl_transaksi` (`id_transaksi`, `id_order`, `kode_order`, `id_pelan
 
 CREATE TABLE `tbl_waiter` (
   `id_waiter` int(11) NOT NULL,
+  `file_foto_waiter` text NOT NULL,
   `nama_waiter` varchar(100) NOT NULL,
-  `jenis_kelamin` varchar(8) NOT NULL,
+  `jenis_kelamin` varchar(10) NOT NULL,
   `alamat` text NOT NULL,
   `no_hp` varchar(12) NOT NULL,
   `email` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(191) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `remember_token` varchar(100) NOT NULL
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
+  `remember_token` varchar(100) DEFAULT NULL,
+  `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tbl_waiter`
+--
+
+INSERT INTO `tbl_waiter` (`id_waiter`, `file_foto_waiter`, `nama_waiter`, `jenis_kelamin`, `alamat`, `no_hp`, `email`, `username`, `password`, `created_at`, `updated_at`, `remember_token`, `status`) VALUES
+(2, 'RizqyReshaP1607357158.jpg', 'Rizqy Resha P', 'Laki-Laki', 'jl.rayaklpc', '081224224678', 'cakrawalagaming0405@gmail.com', 'minerf', '$2y$10$.iGQ7uRJ7MUnX57bV5rSMOJQJEzz1QJU.EX.2k0XzgvuKyq/Ftc8S', '2020-12-07 09:05:58', '2020-12-07 18:37:17', NULL, 'Non-Aktif'),
+(3, 'GuzAzmiModeDewa1607388856.jpg', 'Guz Azmi Mode Dewa', 'Laki-Laki', 'Jl. Vrindafan rumah krisna rt 01 rw 02', '081382615596', 'zachary56@example.net', 'azmimyazmi', '$2y$10$zhbmoKo1aW4DSZ0zLvJvweEncDtr7GuM39ViPWS234vLFyVlAjcr2', '2020-12-07 17:54:17', '2020-12-07 20:31:24', NULL, 'Non-Aktif'),
+(4, 'ReeChan1607392838.jpg', 'ReeChan', 'Laki-Laki', 'JL. Kwosawoski Rt20 rw100', '081927637212', 'ree@hotmail.com', 'reechanuwu', '$2y$10$uOKKH3hSDeYJX7YWRW4CwefTQLxrInWwngJ0M7H.Q5W8nGTiuIRJ.', '2020-12-07 19:00:38', '2020-12-07 20:31:14', NULL, 'Aktif'),
+(5, 'Minerf1607393251.jpg', 'Minerf', 'Laki-Laki', 'JL.Raya Unknown RT20 RW20', '081382615596', 'rizqyresha22@gmail.com', 'minerfamz2', '$2y$10$XKl50zU2Zg4W0r2JXt.5AOmc5lemPCKWnI3o5N3muNRM2yfZZRfFK', '2020-12-07 19:07:31', '2020-12-07 19:09:52', NULL, 'Aktif'),
+(6, 'WideBlackZetsu1607393447.jpg', 'Wide Black Zetsu', 'Laki-Laki', 'JLJLKJLSJ', '12341212', 'cakrawalagaming0405@gmail.com', 'minerfamz1', '$2y$10$NwhgqyfkAevrB7VPuOyRsuJ2C.rEMcnq.yDs/0RB758PLRW85PuKm', '2020-12-07 19:10:47', '2020-12-07 20:31:30', NULL, 'Non-Aktif'),
+(7, 'SadDoge1607393911.jpg', 'Sad Doge', 'Laki-Laki', 'Saddoge', '082983928293', 'caschsal@gamlo.com', 'minerfa', '$2y$10$izoguoeTQ9.xa2Yk6bCAQe.tR3FDRfmoiifs3iItA.7TlPSQSSmaC', '2020-12-07 19:18:31', '2020-12-07 19:21:18', NULL, 'Aktif');
 
 --
 -- Indexes for dumped tables
@@ -420,7 +454,7 @@ ALTER TABLE `tbl_detail_order`
 -- AUTO_INCREMENT untuk tabel `tbl_kasir`
 --
 ALTER TABLE `tbl_kasir`
-  MODIFY `id_kasir` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kasir` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_laporan`
@@ -450,7 +484,7 @@ ALTER TABLE `tbl_order`
 -- AUTO_INCREMENT untuk tabel `tbl_owner`
 --
 ALTER TABLE `tbl_owner`
-  MODIFY `id_owner` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_owner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_pelanggan`
@@ -480,7 +514,7 @@ ALTER TABLE `tbl_transaksi`
 -- AUTO_INCREMENT untuk tabel `tbl_waiter`
 --
 ALTER TABLE `tbl_waiter`
-  MODIFY `id_waiter` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_waiter` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -16,10 +16,10 @@
               <li class=""><a class="nav-link" href="{{route('meja.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Meja</span></a></li>
               <li class=""><a class="nav-link" href="admin/laporan"><i class="fas fa-fw fa-folder"></i> <span>Laporan</span></a></li>
               <hr>
-              <li class=""><a class="nav-link" href=""><i class="fas fa-fw fa-folder"></i> <span>Owner</span></a></li>
+              <li class=""><a class="nav-link" href="{{route('owneraccount.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Owner</span></a></li>
               <li class=""><a class="nav-link" href="{{route('adminaccount.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Admin</span></a></li>
-              <li class=""><a class="nav-link" href="/admin/user"><i class="fas fa-fw fa-folder"></i> <span>Kasir</span></a></li>
-              <li class=""><a class="nav-link" href="/admin/user"><i class="fas fa-fw fa-folder"></i> <span>Waiter</span></a></li>
+              <li class=""><a class="nav-link" href="{{route('kasiraccount.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Kasir</span></a></li>
+              <li class=""><a class="nav-link" href="{{route('waiteraccount.index')}}"><i class="fas fa-fw fa-folder"></i><span>Waiter</span></a></li>
               <li class=""><a class="nav-link" href="{{route('pelangganaccount.index')}}"><i class="fas fa-fw fa-folder"></i> <span>Pelanggan</span></a></li>
               <!-- <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
