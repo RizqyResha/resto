@@ -4,35 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>{{$title}}</title>
+    <title>Document</title>
     <style>
-        .scaled {
-        transform: scale(0.47, 0.5); /* Equal to scaleX(2) scaleY(0.5) */
-        transform-origin: top;
-        }
+
+    .scaled {
+    transform: scale(1, 1); /* Equal to scaleX(2) scaleY(0.5) */
+    transform-origin: top;
+    }
     </style>
 </head>
 <body>
-<div class="scaled">
-    <div class="">
+    <div class="scaled">
     <div class="row col-md-6">
         <div class="">
-        <table class="table table-bordered">
+        <table class="table table-bordered ">
             <tbody>
                 <!-- Nama -->
                 <tr>
                 <th colspan="1">Nama Pelanggan</td>
-                <td colspan="6">{{$nama_pelanggan}}</td>
+                <td colspan="6">DISINI NAMA PELANGGAN</td>
                 </tr>
                 <!-- Kode Pemesanan -->
                 <tr>
                 <th colspan="1">Kode Pemesanan</td>
-                <td colspan="6">{{$kode_order}}</td>
+                <td colspan="6">ORD001829381</td>
                 </tr>
                 <!-- Tanggal -->
                 <tr>
                     <th colspan="1">Tanggal Pemesanan</td>
-                    <td colspan="6">{{$tanggal}}</td>
+                    <td colspan="6">12-9-2020</td>
                 </tr>
                 <!-- Title -->
                 <tr>
@@ -48,34 +48,38 @@
                     <th>Total</th>
                 </tr>
                 <!-- TB -->
-                <?php $no = 1 ?>
-                @foreach($data as $row)
                 <tr class="text-center">
-                    <td scope="row">{{$no++}}</td>
-                    <td colspan="2">{{$row->nama_masakan}}</td>
-                    <td>{{$row->harga_masakan}}</td>
-                    <td>{{$row->diskon}}</td>
-                    <td>{{$row->jumlah_pesan}}</td>
-                    <td>{{$row->total_bayar}}</td>
+                    <td scope="row">1</td>
+                    <td colspan="2">Makanan</td>
+                    <td>15000</td>
+                    <td>5%</td>
+                    <td>1</td>
+                    <td>14250</td>
                 </tr>
-                @endforeach
+                <tr class="text-center">
+                    <td scope="row">2</td>
+                    <td colspan="2">Makanan</td>
+                    <td>5000</td>
+                    <td>0%</td>
+                    <td>1</td>
+                    <td>5000</td>
+                </tr>
                 <!-- total -->
                 <tr class="text-center">
                     <th colspan="6" class="text-center">Total Pembayaran</th>
-                    <th>{{$total_bayar}}</th>
+                    <th>19250</th>
                 </tr>
                 <tr class="text-center">
                     <th colspan="6" class="text-center">Bayar</th>
-                    <th>{{$jumlah_bayar}}</th>
+                    <th>20000</th>
                 </tr>
                 <tr class="text-center">
                     <th colspan="6" class="text-center">Kembalian</th>
-                    <th>{{$kembalian}}</th>
+                    <th>750</th>
                 </tr>
             </tbody>
         </table>
         </div>
-    </div>
     </div>
     
 </div>

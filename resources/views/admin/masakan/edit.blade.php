@@ -35,24 +35,24 @@
         <div class="col-md-5">
           <div class="form-group">
             <label>Harga Masakan</label>
-            <div class=""><input type="number" name="harga_masakan" class="form-control" value="{{ old('harga',$data->harga) }}" required></div>
+            <div class=""><input type="number" min="0" max="1000000000" name="harga_masakan" class="form-control" value="{{ old('harga',$data->harga) }}" required></div>
           </div>
         </div>
 
         <div class="col-md-5">
           <div class="form-group">
             <label>Diskon</label>
-            <div class=""><input type="number" name="diskon_masakan" class="form-control" value="{{ old('diskon',$data->diskon) }}" required></div>
+            <div class=""><input type="number" min="0" max="100" name="diskon_masakan" class="form-control" value="{{ old('diskon',$data->diskon) }}" required></div>
           </div>
         </div>
 
         <div class="col-md-5">
           <div class="form-group">
             <label for="kategori-masakan">Pilih Kategori Masakan</label>
-            <select value="{{ old('nama_kategori',$data->nama_kategori) }}" name="kategori_masakan" class="form-control" id="kategori-masakan1" required>
-              <option>Makanan</option>
-              <option>Minuman</option>
-              <option>Dessert</option>
+            <select data-value="{{ $data ? $data->value : old('nama_kategori') }}" name="kategori_masakan" class="form-control" id="kategori-masakan1" required>
+              <option value="Makanan" @if(old('nama_kategori',$data->nama_kategori) == 'Makanan') selected @endif>Makanan</option>
+              <option value="Minuman" @if(old('nama_kategori',$data->nama_kategori) == 'Minuman') selected @endif>Minuman</option>
+              <option value="Dessert" @if(old('nama_kategori',$data->nama_kategori) == 'Dessert') selected @endif>Dessert</option>
             </select>
           </div>
         </div>
@@ -60,6 +60,12 @@
           <div class="form-group">
             <label for="kategori-masakan">Deskripsi masakan</label>
             <textarea class="form-control" name="deskripsi_masakan" id="" rows="1" required>{{ old('deskripsi',$data->deskripsi) }}</textarea>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Stok</label>
+            <div class=""><input type="number" name="stok" min="0" max="1000000000" class="form-control" value="{{ old('stok',$data->stok) }}" required></div>
           </div>
         </div>
     </div>    
@@ -84,6 +90,8 @@
       }
   })
 </script>
+
+
 @endsection
 
 
@@ -108,3 +116,14 @@ $(function(){
 
 </script>
 @endpush
+
+<script>
+ $(function() {
+       $("select").each(function (index, element) {
+                const val = $(this).data('value');
+                if(val !== '') {
+                    $(this).val(val);
+                }
+        });
+ })
+</script>

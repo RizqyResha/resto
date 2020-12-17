@@ -22,7 +22,7 @@
                 		<div class="input-group mb-3">
                   			<input name="kode_order" id="caripesanan" type="text" class="form-control" placeholder="Cari Kode Order" aria-label="Cari" aria-describedby="button-addon2" value="{{ Request()->keyword }}">
                   			<div class="input-group-append">
-                    			<button id="btncaribuku" class="btn btn-outline-secondary bg-danger" type="submit" id="button-addon2"><i class="fas fa-search text-light"></i></button>
+                    			<button id="btncaripesanan" class="btn btn-outline-secondary bg-danger" type="submit" id="button-addon2"><i class="fas fa-search text-light"></i></button>
                   			</div>
                 		</div>
               		</form>
@@ -53,7 +53,8 @@
 				      	<th scope="col">No</th>
 				      	<th scope="col">Nama masakan</th>
 				      	<th scope="col">Harga masakan</th>
-				      	<th scope="col">Jumlah pesan</th>
+				      	<th scope="">Jumlah pesan</th>
+						<th scope="col">Diskon</th>
 						<th scope="col">Total</th>
 				    	</tr>
 				  	</thead>
@@ -66,6 +67,7 @@
 				      	<td>{{$row->nama_masakan}}</td>
 				      	<td>Rp.{{$row->harga_masakan}}</td>
 						<td>{{$row->jumlah_pesan}}</td>
+						<td>0%</td>
 				      	<td>Rp.{{$row->total_bayar}}</td>
 				    	</tr>
 						@endforeach

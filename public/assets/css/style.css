@@ -2569,7 +2569,7 @@ body.sidebar-mini .main-sidebar {
         padding: 0 20px;
         background-color: #fff; }
         body.sidebar-mini .main-sidebar .sidebar-menu > li ul.dropdown-menu li a.has-dropdown:after {
-          content: "";
+          content: ">";
           font-family: 'Font Awesome 5 Free';
           font-weight: 900;
           position: absolute;
@@ -2682,7 +2682,7 @@ body.layout-3 .navbar.navbar-secondary {
     body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item > .nav-link.has-dropdown {
       margin-right: 35px; }
       body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item > .nav-link.has-dropdown:after {
-        content: "";
+        content: ">";
         font-family: 'Font Awesome 5 Free';
         font-weight: 900;
         position: absolute;
@@ -2718,7 +2718,7 @@ body.layout-3 .navbar.navbar-secondary {
       padding-left: 20px !important;
       padding-right: 20px !important; }
       body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item .dropdown-menu .nav-item .nav-link.has-dropdown:after {
-        content: "";
+        content: ">";
         font-family: 'Font Awesome 5 Free';
         font-weight: 900;
         position: absolute;
@@ -2822,7 +2822,7 @@ body.layout-3 .main-footer {
     .main-sidebar .sidebar-menu li.active ul.dropdown-menu {
       background-color: #f8fafb; }
     .main-sidebar .sidebar-menu li a.has-dropdown:after {
-      content: "";
+      content: ">";
       font-family: 'Font Awesome 5 Free';
       font-weight: 900;
       position: absolute;

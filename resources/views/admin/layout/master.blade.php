@@ -11,6 +11,7 @@
 
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="{{ asset('assets/css/maxtexttablesettings.css')}}">
+  <link rel="stylesheet" href="{{ asset('asset/css/othercustom.css')}}">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">

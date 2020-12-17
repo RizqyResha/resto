@@ -48,6 +48,13 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin']], function() {
     Route::post('/transaksi/kodeorder','AdminTransaksiController@CariKodeOrder')->name('admintransaksi.carikode');
     Route::post('/transaksi/bayar','AdminTransaksiController@Bayar')->name('admintransaksi.bayar');
     Route::post('/transaksi/bayar/report','AdminTransaksiController@CetakStruk')->name('admintransaksi.bayar.report');
+    //---ENTRI-TRANSAKSI---//
+    Route::get('/entritransaksi','AdminEntriTransaksiController@index')->name('adminentriitransaksi.index');
+    Route::get('/entritransaksi/{kodeorder}','AdminEntriTransaksiController@OpenPDF')->name('adminentriitransaksi.view');
+    // Route::post('/transaksi/fromentri','AdminTransaksiController@FromEntri')->name('adminentriitransaksi.carikode');
+    //---ORDER---//
+    Route::get('/order','AdminOrderController@index')->name('adminorder.index');
+    Route::get('/order/kategori/{kategori}','AdminOrderController@Kategori')->name('adminorder.kategori');
     //---LAPORAN---//
     Route::view('/laporan','admin/laporan.index');
     //------------------------------ USER ACCOUNT ------------------------------//

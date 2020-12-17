@@ -10,6 +10,6 @@ class Masakan extends Model
     protected $table = 'tbl_masakan';
     protected $primaryKey = 'id_masakan';
     protected $fillable = [
-        'file_gambar_masakan','nama_masakan','nama_kategori','deskripsi','harga','diskon','status'
+        'file_gambar_masakan','nama_masakan','nama_kategori','deskripsi','harga','diskon','stok','status'
     ];
 }

@@ -27,21 +27,21 @@
           
           <div class="form-group">
             <label>Nama Masakan</label>
-            <input type="text" name="nama_masakan" value="" class="form-control" required>  
+            <input type="text" name="nama_masakan" value="" class="form-control" required maxLength="17">  
           </div>
         </div>
           
         <div class="col-md-5">
           <div class="form-group">
             <label>Harga Masakan</label>
-            <div class=""><input type="number" name="harga_masakan" class="form-control" required></div>
+            <div class=""><input type="number" min="0" max="1000000000" name="harga_masakan" class="form-control" required></div>
           </div>
         </div>
 
         <div class="col-md-5">
           <div class="form-group">
             <label>Diskon</label>
-            <div class=""><input type="number" name="diskon_masakan" class="form-control" value="0" required></div>
+            <div class=""><input type="number" min=0 min="0" max="100" name="diskon_masakan" class="form-control" value="0" required></div>
           </div>
         </div>
 
@@ -55,10 +55,18 @@
             </select>
           </div>
         </div>
+
         <div class="col-md-5">
           <div class="form-group">
             <label for="kategori-masakan">Deskripsi masakan</label>
             <textarea class="form-control" name="deskripsi_masakan" id="" rows="1" required></textarea>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Stok</label>
+            <div class=""><input type="number" min="0" max="1000000000" name="stok" class="form-control" value="10" required></div>
           </div>
         </div>
     </div>    

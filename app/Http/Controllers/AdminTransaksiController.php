@@ -66,6 +66,33 @@ class AdminTransaksiController extends Controller
         // return dd($id_pelanggan);
     }
 
+    // public function FromEntri(Request $request)
+    // {
+    //     $data = DB::table('tbl_detail_order')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+    //     $data = $data->get();
+    //     $id_order = DB::table('tbl_order')->select('id_order')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+    //     $id_order = $id_order->pluck('id_order')->first();
+    //     $id_pelanggan = DB::table('tbl_order')->select('id_pelanggan')->where('kode_order','=',$request->kode_order)->where('status','=','BELUM_BAYAR');
+    //     $id_pelanggan = $id_pelanggan->pluck('id_pelanggan')->first();
+    //     $jumlah_bayar = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('total_bayar');
+    //     $namapemesan = DB::table('tbl_order')->select('nama_pelanggan')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('nama_pelanggan')->first();
+    //     $kode_order = $request->kode_order;
+    //     $jumlah_masakan_dipesan = DB::table('tbl_detail_order')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->sum('jumlah_pesan');
+    //     $nomeja = DB::table('tbl_detail_order')->select('no_meja')->where('kode_order','=', $request->kode_order)->where('status','=','BELUM_BAYAR')->pluck('no_meja')->first();
+    //     // return dd($jumlah_masakan_dipesan);
+    //     return view('admin.transaksi.index',[
+    //         'data'=>$data,
+    //         'jumlah_bayar'=>$jumlah_bayar,
+    //         'nomeja'=>$nomeja,
+    //         'namapemesan'=>$namapemesan,
+    //         'kode_order'=>$kode_order,
+    //         'id_order'=>$id_order,
+    //         'id_pelanggan'=>$id_pelanggan,
+    //         'jumlah_masakan_dipesan'=>$jumlah_masakan_dipesan]);
+
+    //     // return dd($id_pelanggan);
+    // }
+
     public function Bayar(Request $request)
     {
         // //UPDATE STATUS
@@ -133,6 +160,8 @@ class AdminTransaksiController extends Controller
 
     public function CetakStruk(Request $request)
     {
+        $papersize = array(0,0,323.15,459.21);
+        $lokasi_file_struk = public_path('/assets/struk_transaksi/' . $request->kode_order . '.pdf');
         $data = DB::table('tbl_detail_order')->where('kode_order','=',$request->kode_order)->get();
         $pdf = PDF::loadView('admin.transaksi.report',[
             'nama_pelanggan'=>$request->nama_pelanggan,
@@ -142,7 +171,10 @@ class AdminTransaksiController extends Controller
             'total_bayar'=>$request->total_bayar,
             'jumlah_bayar'=>$request->jumlah_bayar,
             'data'=>$data,
-        ]);
+            'title'=>$request->kode_order
+        ])->save($lokasi_file_struk);
+        // ->setPaper($papersize,'potrait')
+        Transaksi::where('kode_order','=',$request->kode_order)->update(['file_struk_transaksi'=>$request->kode_order . '.pdf']);
         return $pdf->stream($request->kode_order.'.pdf');
     }
 }

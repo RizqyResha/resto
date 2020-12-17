@@ -73,6 +73,7 @@
                             </a><br>
                             <span>  <b>Harga     :</b> {{$row->harga}}</span><br>
                             <span>  <b>Kategori  :</b> {{$row->nama_kategori}}</span><br>
+                            <span>  <b>Stok  :</b> {{$row->stok}}</span><br>
                             <span>  
                             @if($row->status == 'Tersedia') <b>Status :</b> <span class="text-success">Tersedia</span>
                             @elseif($row->status == 'Habis') <b>Status :</b> <span class="text-warning">Habis</span>
@@ -91,8 +92,9 @@
                             </a>
                               <form action="{{route('masakan.updateStatus',['masakan'=>$row->id_masakan])}}" method="post">
                                 @csrf
-                                <button class="btn btn-success mr-1" name='status' value="Tersedia" type="submit">Tersedia</a>
-                                <button class="btn btn-warning" name='status' value="Habis" type="submit">Habis</a>
+                                <button class="btn btn-success mr-1" name='status' value="add" type="submit"><i class="fas fa-plus-square"></i> 10 Porsi</a>
+                                <button class="btn btn-warning mr-1" name='status' value="dec" type="submit"><i class="fas fa-minus-square"></i> 10 Porsi</a>
+                                <button class="btn btn-danger" name='status' value="Habis" type="submit"><i class="fas fa-minus-square"></i> Habis</a>
                               </form>
                             </div>
                           </td>
@@ -100,7 +102,9 @@
                       @endforeach
                   </tbody>
               </table>
-              
+              <div class="d-flex justify-content-center">
+                {{ $data->links() }}
+              </div>
           </div>
       </div>
     </div>

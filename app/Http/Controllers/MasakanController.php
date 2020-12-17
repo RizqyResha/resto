@@ -23,7 +23,7 @@ class MasakanController extends Controller
                 ->orWhere('tbl_masakan.status','like',"%{$request->keyword}%")
                 ->orWhere('tbl_masakan.deskripsi','like',"%{$request->keyword}%")
                 ->orderBy('tbl_masakan.id_masakan')
-                ->paginate(10);
+                ->paginate(5);
         return view('admin.masakan.index',['data'=>$data]);
     }
 
@@ -48,6 +48,14 @@ class MasakanController extends Controller
 
         //lokasi file foto di simpan
         $lokasi_file = public_path('/assets/masakans');
+
+        //Validasi Status
+        if($request->stok <= 0)
+        {
+            $status = 'Habis';
+        }elseif($request->stok > 0){
+            $status = 'Tersedia';
+        }
         
         if(!empty($request->file_gambar_masakan))
         {
@@ -57,6 +65,7 @@ class MasakanController extends Controller
         $resize_gambar_masakan = Image::make($gambar_masakan->getRealPath());
         $resize_gambar_masakan->resize(150, 150)->save($lokasi_file . '/' . $nama_gambar_masakan);
         //End resize Gambar Masakan
+            
         
         Masakan::create([
             'file_gambar_masakan'=>$nama_gambar_masakan,
@@ -65,7 +74,8 @@ class MasakanController extends Controller
             'deskripsi'=>$request->deskripsi_masakan,
             'harga'=>$request->harga_masakan,
             'diskon'=>$request->diskon_masakan,
-            'status'=>'Tersedia'
+            'stok'=>$request->stok,
+            'status'=>$status
         ]);
         }else{
             Masakan::create([
@@ -75,7 +85,8 @@ class MasakanController extends Controller
                 'deskripsi'=>$request->deskripsi_masakan,
                 'harga'=>$request->harga_masakan,
                 'diskon'=>$request->diskon_masakan,
-                'status'=>'Tersedia'
+                'stok'=>$request->stok,
+                'status'=>$status
             ]); 
         }
 
@@ -116,6 +127,14 @@ class MasakanController extends Controller
         //lokasi file foto di simpan
         $lokasi_file = public_path('/assets/masakans');
 
+        //Validasi Status
+        if($request->stok <= 0)
+        {
+            $status = 'Habis';
+        }else{
+            $status = 'Tersedia';
+        }
+
         if(!empty($request->file_gambar_masakan))
         {
         //Resize Gambar Masakan
@@ -131,7 +150,9 @@ class MasakanController extends Controller
             'nama_kategori'=>$request->kategori_masakan,
             'deskripsi'=>$request->deskripsi_masakan,
             'harga'=>$request->harga_masakan,
+            'stok'=>$request->stok,
             'diskon'=>$request->diskon_masakan,
+            'status'=>$status
         ];
 
         }else{
@@ -140,7 +161,9 @@ class MasakanController extends Controller
                 'nama_kategori'=>$request->kategori_masakan,
                 'deskripsi'=>$request->deskripsi_masakan,
                 'harga'=>$request->harga_masakan,
+                'stok'=>$request->stok,
                 'diskon'=>$request->diskon_masakan,
+                'status'=>$status
             ]; 
         }
         $masakan->update($query);
@@ -161,15 +184,38 @@ class MasakanController extends Controller
 
     public function UpdateStatus(Request $request, Masakan $masakan)
     {
-        if($request->status == 'Tersedia')
+        $total_stok = Masakan::select('stok')->where('id_masakan','=',$masakan->id_masakan)->pluck('stok')->first();
+        $aritmatika_tambah = $total_stok + 10;
+        if ($total_stok <= 10)
         {
-            $masakan->update(['status'=>'Tersedia']);
-            return redirect()->route('masakan.index');
+            $status = 'Habis';
+            $aritmatika_kurang = 0;  
         }else{
-            $masakan->update(['status'=>'Habis']);
+            $status = 'Tersedia';
+            $aritmatika_kurang = $total_stok - 10;
+        }
+        if($request->status == 'add')
+        {
+            $masakan->update([
+                'status'=>'Tersedia',
+                'stok'=> $aritmatika_tambah
+                ]);
+            return redirect()->route('masakan.index');
+        }elseif($request->status == 'dec'){
+            $masakan->update([
+                'status'=>$status,
+                'stok'=> $aritmatika_kurang
+                ]);
+            return redirect()->route('masakan.index');
+        }elseif($request->status == 'Habis'){
+            $masakan->update([
+                'status'=>'Habis',
+                'stok'=> 0
+                ]);
             return redirect()->route('masakan.index');
         }
         return redirect()->route('masakan.index');
+        // return dd($total_stok);
     }
 
     // public function statusTersedia(Request $request)

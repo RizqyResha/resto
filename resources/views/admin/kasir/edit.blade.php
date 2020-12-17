@@ -39,8 +39,8 @@
           <div class="form-group">
             <label>*Jenis Kelamin</label>
             <select value="{{ old('jenis_kelamin',$data->jenis_kelamin) }}" name="jenis_kelamin" class="form-control" id="exampleFormControlSelect2">
-              <option>Laki-Laki</option>
-              <option>Perempuan</option>
+              <option value="Laki-Laki" @if(old('jenis_kelamin',$data->jenis_kelamin) == 'Laki-Laki') selected @endif>Laki-Laki</option>
+              <option value="Perempuan" @if(old('jenis_kelamin',$data->jenis_kelamin) == 'Perempuan') selected @endif>Perempuan</option>
             </select>
           </div>
         </div>
