@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Des 2020 pada 00.37
+-- Waktu pembuatan: 21 Des 2020 pada 01.33
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -62,19 +62,22 @@ CREATE TABLE `tbl_detail_order` (
   `diskon` int(12) NOT NULL,
   `total_bayar` int(11) NOT NULL,
   `jumlah_pesan` int(11) NOT NULL,
-  `no_meja` int(11) NOT NULL,
-  `status` varchar(20) NOT NULL
+  `no_meja` int(11) DEFAULT NULL,
+  `status` varchar(20) NOT NULL,
+  `session_id` varchar(191) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_detail_order`
 --
 
-INSERT INTO `tbl_detail_order` (`id_detail_order`, `id_order`, `kode_order`, `id_masakan`, `nama_masakan`, `harga_masakan`, `diskon`, `total_bayar`, `jumlah_pesan`, `no_meja`, `status`) VALUES
-(1, 1, 'ORD11232020001', 6, 'Tamusu', 15000, 5, 14250, 1, 5, 'BELUM_BAYAR'),
-(2, 1, 'ORD11232020001', 3, 'Jus Jambu', 5000, 0, 10000, 2, 5, 'BELUM_BAYAR'),
-(3, 2, 'ORD12082020001', 6, 'Tamusu', 15000, 0, 15000, 1, 6, 'SELESAI'),
-(4, 2, 'ORD12082020001', 4, 'Ice Cream Coklat', 12000, 0, 12000, 1, 6, 'SELESAI');
+INSERT INTO `tbl_detail_order` (`id_detail_order`, `id_order`, `kode_order`, `id_masakan`, `nama_masakan`, `harga_masakan`, `diskon`, `total_bayar`, `jumlah_pesan`, `no_meja`, `status`, `session_id`) VALUES
+(1, 1, 'ORD11232020001', 6, 'Tamusu', 15000, 5, 14250, 1, 5, 'BELUM_BAYAR', ''),
+(2, 1, 'ORD11232020001', 3, 'Jus Jambu', 5000, 0, 10000, 2, 5, 'BELUM_BAYAR', ''),
+(3, 2, 'ORD12082020001', 6, 'Tamusu', 15000, 0, 15000, 1, 6, 'SELESAI', ''),
+(4, 2, 'ORD12082020001', 4, 'Ice Cream Coklat', 12000, 0, 12000, 1, 6, 'SELESAI', ''),
+(34, 24, 'ORD1220201', 3, 'Jus Jambu', 5000, 0, 20000, 4, NULL, 'PROSSES', NULL),
+(35, 24, 'ORD1220201', 4, 'Ice Cream Coklat', 12000, 5, 34200, 3, NULL, 'PROSSES', NULL);
 
 -- --------------------------------------------------------
 
@@ -192,23 +195,26 @@ INSERT INTO `tbl_meja` (`id_meja`, `no_meja`, `keterangan`) VALUES
 CREATE TABLE `tbl_order` (
   `id_order` int(11) NOT NULL,
   `kode_order` varchar(100) NOT NULL,
-  `id_meja` int(11) NOT NULL,
-  `no_meja` int(11) NOT NULL,
-  `id_pelanggan` int(11) NOT NULL,
-  `nama_pelanggan` varchar(100) NOT NULL,
+  `id_meja` int(11) DEFAULT NULL,
+  `no_meja` int(11) DEFAULT NULL,
+  `id_pelanggan` int(11) DEFAULT NULL,
+  `nama_pelanggan` varchar(100) DEFAULT NULL,
   `tanggal` date NOT NULL,
-  `total_bayar` int(11) NOT NULL,
-  `keterangan` text NOT NULL,
-  `status` varchar(11) NOT NULL
+  `total_bayar` int(11) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `status` varchar(11) NOT NULL,
+  `id_petugas` int(11) DEFAULT NULL,
+  `level_petugas` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_order`
 --
 
-INSERT INTO `tbl_order` (`id_order`, `kode_order`, `id_meja`, `no_meja`, `id_pelanggan`, `nama_pelanggan`, `tanggal`, `total_bayar`, `keterangan`, `status`) VALUES
-(1, 'ORD11232020001', 4, 5, 1, 'Rizqy Resha P', '2020-11-23', 19250, 'No Description ', 'BELUM_BAYAR'),
-(2, 'ORD12082020001', 9, 6, 3, 'Resha P Rizqy', '2020-12-08', 27000, 'no desc', 'SELESAI');
+INSERT INTO `tbl_order` (`id_order`, `kode_order`, `id_meja`, `no_meja`, `id_pelanggan`, `nama_pelanggan`, `tanggal`, `total_bayar`, `keterangan`, `status`, `id_petugas`, `level_petugas`) VALUES
+(1, 'ORD11232020001', 4, 5, 1, 'Rizqy Resha P', '2020-11-23', 19250, 'No Description ', 'BELUM_BAYAR', 0, NULL),
+(2, 'ORD12082020001', 9, 6, 3, 'Resha P Rizqy', '2020-12-08', 27000, 'no desc', 'SELESAI', 0, NULL),
+(24, 'ORD1220201', NULL, NULL, NULL, NULL, '2020-12-20', NULL, 'nodesc', 'PROSSES', 9, 'admin');
 
 -- --------------------------------------------------------
 
@@ -450,7 +456,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT untuk tabel `tbl_detail_order`
 --
 ALTER TABLE `tbl_detail_order`
-  MODIFY `id_detail_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_detail_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_kasir`
@@ -480,7 +486,7 @@ ALTER TABLE `tbl_meja`
 -- AUTO_INCREMENT untuk tabel `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_owner`
