@@ -105,7 +105,8 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="">
-                                                <form class="">
+                                                <form action="{{route('adminorder.order')}}" method="POST">
+                                                @csrf
                                                     <div class="row">
                                                         <div class="col-md-5">
                                                             <img src="{{asset('assets/masakans/'.$row->file_gambar_masakan)}}" class="card-img-top" style="">
@@ -121,7 +122,7 @@
                                                         <div class="col-md-9">
                                                             <div class="form-group text-center">
                                                                 <label for="exampleFormControlInput1" class="text-center">Jumlah Pesan</label>
-                                                                <input type="number" onchange="" name="jumlah_pesan" class="form-control" id="jumlah_pesan" value="1" placeholder="" min="1" max="{{$row->stok}}">
+                                                                <input type="number" onchange="" name="jumlah_pesan" class="form-control" id="jumlah_pesan" value="1" placeholder="" min="1" max="{{$row->stok}}" required>
                                                             </div>
                                                             <!-- @if($row->diskon > 0)
                                                                 <div class="text-center">
@@ -141,9 +142,18 @@
                                                                     <button class="btn btn-danger btn-block col-lg-12 mt-5 mr-1 text-center" data-toggle="modal" data-target="#orderMasakan-{{ $row->id_masakan }}">Order</button>
                                                                 </div>
                                                             @endif  -->
+                                                            <!-- hidden input -->
+                                                            <input type="hidden" onchange="" name="id_petugas" class="form-control" value="{{ \Auth::guard('admin')->user()->id_admin }}" hidden>
+                                                            <input type="hidden" onchange="" name="level_petugas" class="form-control" value="admin" hidden>
+                                                            <input type="hidden" onchange="" name="id_masakan" class="form-control" value="{{$row->id_masakan}}" hidden>
+                                                            <input type="hidden" onchange="" name="nama_masakan" class="form-control" value="{{$row->nama_masakan}}" hidden>
+                                                            <input type="hidden" onchange="" name="harga_masakan" class="form-control" value="{{$row->harga}}" hidden>
+                                                            <input type="hidden" onchange="" name="diskon" class="form-control" value="{{$row->diskon}}" hidden>
+                                                            <?php $diskon = $row->diskon; $tahap1 = $diskon/100 * $row->harga; $harga_diskon = $row->harga - $tahap1; ?>
+                                                            <input type="number" onchange="" name="total_bayar" class="form-control" value="{{$harga_diskon}}" hidden>
                                                             <div class="row d-flex justify-content-center">
                                                                 <button type="button" class="btn btn-secondary col-md-4 text-center mr-2" data-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-danger col-md-4 text-center" data-toggle="modal" data-target="#orderMasakan-{{ $row->id_masakan }}">Order</button>
+                                                                <button type="submit" class="btn btn-danger col-md-4 text-center" data-toggle="modal">Order</button>
                                                             </div>      
                                                         </div>   
                                                     </div>
@@ -169,7 +179,7 @@
                 </div>
                 <!-- Button Keranjang -->
                 <div class="d-flex justify-content-center">
-                    <a href="" class="btn btn-primary mb-4"><i class="fas fa-shopping-cart fa-7x" ></i> <b>Lihat keranjang Untuk melanjutkan</b></a>
+                    <a href="" class="btn btn-primary mb-4 "> <h5 class="mt-2"><i class="fas fa-shopping-cart" style="font-size : 20px;"></i> Lihat keranjang Untuk melanjutkan</h5></a>
                 </div>
             </div>
         </div>

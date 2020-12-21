@@ -55,6 +55,10 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:admin']], function() {
     //---ORDER---//
     Route::get('/order','AdminOrderController@index')->name('adminorder.index');
     Route::get('/order/kategori/{kategori}','AdminOrderController@Kategori')->name('adminorder.kategori');
+    Route::post('/order/prosses/order','AdminOrderController@Order')->name('adminorder.order');
+    Route::get('/cart', function () {
+        return view('admin.order.cart');
+    });
     //---LAPORAN---//
     Route::view('/laporan','admin/laporan.index');
     //------------------------------ USER ACCOUNT ------------------------------//
